@@ -1,4 +1,7 @@
 push = require 'push'
+log = require 'log'
+
+require 'Bird'
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -16,6 +19,8 @@ local BACKGROUND_SCROLL_SPEED = 33
 local GROUND_SCROLL_SPEED = 60
 local BACKGROUND_LOOP_POINT = 413
 
+local bird = Bird(VIRTUAL_WIDTH,VIRTUAL_HEIGHT)
+
 function love.load()
     love.graphics.setDefaultFilter('nearest','nearest')
     love.window.setTitle('Flappy by Paulo')
@@ -27,6 +32,9 @@ function love.load()
         vsync = true,
         canvas = false
     })
+
+
+    log.info(bird:toString())
 end
 
 function love.resize(w, h)
@@ -48,8 +56,11 @@ end
 
 function love.draw()
     push:start()
-    love.graphics.draw(background,-backgroundScroll,0)
 
+    love.graphics.draw(background,-backgroundScroll,0)
     love.graphics.draw(ground,-groundScroll,VIRTUAL_HEIGHT-16)
+
+    bird:render()
+
     push:finish()
 end
