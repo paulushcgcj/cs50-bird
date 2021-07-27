@@ -6,4 +6,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Generate .love file
-        run: zip -9 -r ${{ github.repository }}.love . -x '*.git*' -x '*.vscode*' -x '*.github*'
+        run: zip -9 -r thefbird.love . -x '*.git*' -x '*.vscode*' -x '*.github*'
