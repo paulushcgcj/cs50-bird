@@ -21,14 +21,10 @@ jobs:
           rm -rf win64/*.ico
           rm -rf win64/lov*.exe
           rm -rf win64/*.txt
-          rm -rf win64/*.ico
-      - name: Zipping Build for windows
-        run: |
-          ls
-          zip version-win64.zip win64/
+          rm -rf win64/*.ico      
       - name: Archive binaries for windows
         uses: actions/upload-artifact@v2
         with:
           name: version-win64
-          path: version-win64.zip
+          path: win64
           retention-days: 5
