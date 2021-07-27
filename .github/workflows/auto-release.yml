@@ -19,12 +19,12 @@ jobs:
           cat love-11.3-win64/love.exe love-11.3-win64/thefbird.love > love-11.3-win64/thefbird.exe
           mv love-11.3-win64/ win64/
           rm -rf win64/*.ico
-          rm -rf win64/lov*.exe
-          rm -rf win64/*.txt
+          rm -rf win64/lov*.exe          
           rm -rf win64/*.ico      
+          rm -rf win64/*.love
       - name: Archive binaries for windows
         uses: actions/upload-artifact@v2
         with:
-          name: version-win64
+          name: ${{ github.ref }}-win64
           path: win64
           retention-days: 5
