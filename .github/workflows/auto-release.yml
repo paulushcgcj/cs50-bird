@@ -1,16 +1,12 @@
 name: Automatic Release on Push
-on: [push]
+on:
+  push:
+    branches:
+      - "main"
 jobs:
   Release:
     runs-on: ubuntu-latest
-    steps:
-      - name: test
-        run: |
-          echo ${{ github.base_ref }}
-          echo ${{ github.head_ref }}
-          echo ${{ github.ref }}
-          echo ${{ github.base_ref }}
-          echo ${{ github.base_ref }}
+    steps:      
       - uses: actions/checkout@v2
       - name: Generate .love file
         run: zip -9 -r thefbird.love . -x '*.git*' -x '*.vscode*' -x '*.github*'
