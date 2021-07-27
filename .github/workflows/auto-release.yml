@@ -11,8 +11,10 @@ jobs:
         id: lovebins
         name: Download Love2D Binaries for windows
         with:
-          url: "https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip"          
+          url: "https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip"                
       - name: Generating Binaries for windows
-        run: ls
+        run: |
+          unzip love-11.3-win64
+          mv thefbird.love love-11.3-win64
       - name: Zipping Build for windows
-        run: echo tst      
+        run: ls
