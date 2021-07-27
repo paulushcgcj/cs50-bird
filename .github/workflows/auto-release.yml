@@ -7,3 +7,12 @@ jobs:
       - uses: actions/checkout@v2
       - name: Generate .love file
         run: zip -9 -r thefbird.love . -x '*.git*' -x '*.vscode*' -x '*.github*'
+      - uses: suisei-cn/actions-download-file@v1
+        id: lovebins
+        name: Download Love2D Binaries for windows
+        with:
+          url: "https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip"          
+      - name: Generating Binaries for windows
+        run: echo tst
+      - name: Zipping Build for windows
+        run: echo tst      
