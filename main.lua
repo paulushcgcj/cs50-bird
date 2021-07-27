@@ -1,10 +1,12 @@
-DEBUG_COLLIDERS = true
-
 push = require 'push'
 log = require 'log'
 
 require 'Bird'
 require 'Scenario'
+
+require 'StateMachine'
+require 'states/PlayState'
+require 'states/TitleState'
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -14,7 +16,6 @@ VIRTUAL_HEIGHT = 288
 
 GRAVITY = 10
 
-local bird = Bird(VIRTUAL_WIDTH,VIRTUAL_HEIGHT,GRAVITY)
 local scenario = Scenario(VIRTUAL_WIDTH,VIRTUAL_HEIGHT)
 
 local scrolling = true
@@ -24,12 +25,24 @@ function love.load()
     love.window.setTitle('Filphy by Paulo')
     math.randomseed(os.time())
 
+    --smallFont = love.graphics.newFont('assets/PressStart2P-Regular.ttf',8)
+    --mediumFont = love.graphics.newFont('assets/PressStart2P-Regular.ttf',14)
+    --largeFont = love.graphics.newFont('assets/PressStart2P-Regular.ttf',56)
+    flappyFont = love.graphics.newFont('assets/PressStart2P-Regular.ttf',28)
+    love.graphics.setFont(flappyFont)
+
     push:setupScreen(VIRTUAL_WIDTH,VIRTUAL_HEIGHT,WINDOW_WIDTH,WINDOW_HEIGHT,{
         fullscreen = false,
         resizable = true,
         vsync = true,
         canvas = false
     })
+
+    gStateMachine = StateMachine {
+        ['title'] = function() return TitleState(VIRTUAL_WIDTH) end,
+        ['play'] = function() return PlayState(VIRTUAL_WIDTH,VIRTUAL_HEIGHT,GRAVITY) end,
+    }
+    gStateMachine:change('title')
 
     love.keyboard.keysPressed = {}
 
@@ -53,12 +66,10 @@ end
 
 function love.update(dt)
 
-    scenario:update(dt,scrolling,bird)
-    scrolling = not scenario.collided
+    gStateMachine:update(dt)
 
-    if scrolling then
-        bird:update(dt)
-    end
+    scenario:update(dt,scrolling)
+    scrolling = not scenario.collided
 
     love.keyboard.keysPressed = {}
 
@@ -67,6 +78,6 @@ end
 function love.draw()
     push:start()
     scenario:render()
-    bird:render()
+    gStateMachine:render()
     push:finish()
 end

@@ -24,7 +24,12 @@ function BoundBox:update(x,y)
 end
 
 function BoundBox:canDespawn()
-    return self.x < -(self.width + self.width / 4 )
+    local canIDespawn = self.x < -(self.width + self.width / 4 )
+
+    if canIDespawn then
+        print("I can despawn because Im at " ..tostring(self.x).."/"..tostring(self.y))
+    end
+    return canIDespawn
 end
 
 function BoundBox:collides(target)

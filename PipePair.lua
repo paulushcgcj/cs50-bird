@@ -7,9 +7,6 @@ local PIPE_IMAGE = love.graphics.newImage('assets/images/pipe.png')
 local PIPE_SCROLL = -60
 
 function PipePair:init(yPosition,screenWidth,gap)
-    self.x = screenWidth + 32
-    self.y = yPosition
-
     self.pipes = {
         ['upper'] = Pipe('top',screenWidth,yPosition,PIPE_IMAGE),
         ['lower'] = Pipe('bottom',screenWidth,yPosition + gap,PIPE_IMAGE)
