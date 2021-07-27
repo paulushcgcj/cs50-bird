@@ -1,0 +1,9 @@
+name: Automatic Release on Push
+on: [push]
+jobs:
+  Release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Generate .love file
+        run: zip -9 -r ${{ github.repository }}.love . -x '*.git*' -x '*.vscode*' -x '*.github*'
