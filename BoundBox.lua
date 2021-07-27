@@ -24,12 +24,7 @@ function BoundBox:update(x,y)
 end
 
 function BoundBox:canDespawn()
-    local canIDespawn = self.x < -(self.width + self.width / 4 )
-
-    if canIDespawn then
-        print("I can despawn because Im at " ..tostring(self.x).."/"..tostring(self.y))
-    end
-    return canIDespawn
+    return self.x < -(self.width + self.width / 4 )
 end
 
 function BoundBox:collides(target)
@@ -54,4 +49,12 @@ function BoundBox:drawCollider(shiftX,shiftY,shiftWidth,shiftHeight)
         self.width - shiftWidth,
         self.height - shiftHeight
     )
+end
+
+function BoundBox:clampX(min,max)
+    self.x = self.x < min and min or self.x > max and max or self.x
+end
+
+function BoundBox:clampY(min,max)
+    self.y = self.y < min and min or self.y > max and max or self.y
 end

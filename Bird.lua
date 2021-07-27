@@ -4,6 +4,8 @@ require 'BoundBox'
 Bird = Class{}
 
 function Bird:init(screenWidth,screenHeight,gravity)
+    self.screenHeight = screenHeight
+    self.screenWidth = screenWidth
     self.image = love.graphics.newImage('assets/images/bird.png')
     self.box = BoundBox(
         screenWidth / 2 - (self.image:getWidth() / 2),
@@ -12,7 +14,8 @@ function Bird:init(screenWidth,screenHeight,gravity)
         self.image:getHeight()
     )
 
-    self.maxY = screenHeight + self.box.height + (self.box.height / 4)
+    self.bottomY = screenHeight + self.box.height + (self.box.height / 4)
+    self.topY = self.box.height * -2
 
     self.deltaY = 0
 
@@ -26,17 +29,13 @@ end
 
 function Bird:update(dt)
 
-    if self.box.y < self.maxY then
-
-        self.deltaY = self.deltaY + self.gravity * dt
-
-        if love.keyboard.wasPressed('space') then
-            self.deltaY = -(self.jumpForce + dt)
-        end
-
-        self.box:update(0,self.deltaY)
-
+    self.deltaY = self.deltaY + self.gravity * dt
+    if love.keyboard.wasPressed('space') then
+        self.deltaY = -(self.jumpForce + dt)
     end
+
+    self.box:update(0,self.deltaY)
+    self.box:clampY(self.topY,self.bottomY)
 
 end
 
