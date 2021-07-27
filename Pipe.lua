@@ -1,40 +1,43 @@
 Class = require 'class'
+require 'BoundBox'
 
 Pipe = Class{}
 
-local PIPE_IMAGE = love.graphics.newImage('assets/images/pipe.png')
-local PIPE_SCROLL = -60
 
-function Pipe:init(orientation,screenWidth,yPosition,modifier)
-    self.width = PIPE_IMAGE:getWidth()
-    self.height = PIPE_IMAGE:getHeight()
-
-    self.x = screenWidth + (self.width / 2)
-    self.y = yPosition
-    self.y = modifier > 0 and yPosition + self.height + modifier or yPosition
+function Pipe:init(orientation,screenWidth,yPosition,pipeImage)
+    self.box = BoundBox(
+        screenWidth + (pipeImage:getWidth() / 2),
+        yPosition,
+        pipeImage:getWidth(),
+        pipeImage:getHeight()
+    )
 
     self.deltaY = 0
 
     self.orientation = orientation
 end
 
-function Pipe:update(dt)
-    self.x = (self.x + PIPE_SCROLL * dt)
+function Pipe:update(dt,scrollSpeed)
+    self.box:update(scrollSpeed * dt,0)
 end
 
 function Pipe:canDespawn()
-    return self.x < -(self.width + self.width / 4 )
+    return self.box:canDespawn()
 end
 
-function Pipe:render()
+function Pipe:render(pipeImage)
     love.graphics.draw(
-        PIPE_IMAGE,
-        self.x,
-        self.orientation == 'top' and self.y + self.height or self.y,
-        0,
+        pipeImage,
+        self.orientation == 'top' and self.box.x + self.box.width or self.box.x,
+        self.box.y,
+        self.orientation == 'top' and math.rad(180) or 0,
         1,
-        self.orientation == 'top' and -1 or 1
+        1
     )
+end
+
+function Pipe:collides(target)    
+    return self.box:collidesComplex(target.box,0,self.orientation == 'top' and self.box.height or 0,3)
 end
 
 function Pipe:toString()
@@ -44,4 +47,13 @@ function Pipe:toString()
     end
     s = string.sub(s,0,string.len(s)-2).."]"
     return s
+end
+
+function Pipe:drawCollider()
+    self.box:drawCollider(
+        3,
+        self.orientation == 'top' and -self.box.height + 3 or 3,
+        6,
+        6
+    )
 end

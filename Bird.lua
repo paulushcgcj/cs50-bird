@@ -1,16 +1,18 @@
 Class = require 'class'
+require 'BoundBox'
 
 Bird = Class{}
 
 function Bird:init(screenWidth,screenHeight,gravity)
     self.image = love.graphics.newImage('assets/images/bird.png')
-    self.width = self.image:getWidth()
-    self.height = self.image:getHeight()
+    self.box = BoundBox(
+        screenWidth / 2 - (self.image:getWidth() / 2),
+        screenHeight / 2 - (self.image:getHeight() / 2),
+        self.image:getWidth(),
+        self.image:getHeight()
+    )
 
-    self.x = screenWidth / 2 - (self.width / 2)
-    self.y = screenHeight / 2 - (self.height / 2)
-
-    self.maxY = screenHeight + self.height + (self.height / 4)
+    self.maxY = screenHeight + self.box.height + (self.box.height / 4)
 
     self.deltaY = 0
 
@@ -19,30 +21,27 @@ function Bird:init(screenWidth,screenHeight,gravity)
 
     --TODO: Move this to outside
     self.originalJumpForce = 5
-    self.jumpForce = 5
-end
-
-function Bird:jump()
-    self.deltaY = self.deltaY - self.gravity
+    self.jumpForce = 2
 end
 
 function Bird:update(dt)
 
-    if self.y < self.maxY then
+    if self.box.y < self.maxY then
 
         self.deltaY = self.deltaY + self.gravity * dt
 
         if love.keyboard.wasPressed('space') then
-            self.deltaY = -self.jumpForce
+            self.deltaY = -(self.jumpForce + dt)
         end
 
-        self.y = self.y + self.deltaY
+        self.box:update(0,self.deltaY)
+
     end
- 
+
 end
 
 function Bird:render()
-    love.graphics.draw(self.image,self.x,self.y)
+    love.graphics.draw(self.image,self.box.x,self.box.y)
 end
 
 function Bird:toString()
@@ -50,6 +49,11 @@ function Bird:toString()
     for key, value in pairs(self) do
         s = s ..key ..":" ..tostring(value) ..", "
     end
+    s = s .."box:" ..self.box:toString() ..", "
     s = string.sub(s,0,string.len(s)-2).."]"
     return s
+end
+
+function Bird:drawCollider()
+    self.box:drawCollider(0,0,0,0)
 end

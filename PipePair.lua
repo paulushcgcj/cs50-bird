@@ -3,19 +3,22 @@ require 'Pipe'
 
 PipePair = Class{}
 
+local PIPE_IMAGE = love.graphics.newImage('assets/images/pipe.png')
+local PIPE_SCROLL = -60
+
 function PipePair:init(yPosition,screenWidth,gap)
     self.x = screenWidth + 32
     self.y = yPosition
 
     self.pipes = {
-        ['upper'] = Pipe('top',screenWidth,yPosition,0),
-        ['lower'] = Pipe('bottom',screenWidth,yPosition,gap)
+        ['upper'] = Pipe('top',screenWidth,yPosition,PIPE_IMAGE),
+        ['lower'] = Pipe('bottom',screenWidth,yPosition + gap,PIPE_IMAGE)
     }
 end
 
 function PipePair:update(dt)
-    for index, pipe in pairs(self.pipes) do
-        pipe:update(dt)
+    for _, pipe in pairs(self.pipes) do
+        pipe:update(dt,PIPE_SCROLL)
     end
 end
 
@@ -23,9 +26,29 @@ function PipePair:canDespawn()
     return self.pipes['upper']:canDespawn()
 end
 
+function PipePair:collides(target)
+
+    for _, pipe in pairs(self.pipes) do
+        if pipe:collides(target) then
+            return true
+        end
+    end
+
+    return false
+
+end
+
+
 function PipePair:render()
-    for index, pipe in pairs(self.pipes) do
-        pipe:render()
+    for _, pipe in pairs(self.pipes) do
+        pipe:render(PIPE_IMAGE)
+    end
+end
+
+
+function PipePair:drawCollider()
+    for _, pipe in pairs(self.pipes) do
+        pipe:drawCollider()
     end
 end
 

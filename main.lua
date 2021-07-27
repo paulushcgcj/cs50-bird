@@ -1,3 +1,6 @@
+DEBUG_COLLIDERS = true
+
+
 push = require 'push'
 log = require 'log'
 
@@ -27,12 +30,11 @@ local bird = Bird(VIRTUAL_WIDTH,VIRTUAL_HEIGHT,GRAVITY)
 
 local pipePairs = {}
 local spawnTimer = 0
-
-local lastPipeY = -288 + math.random(80) + 20
+local scrolling = true
 
 function love.load()
     love.graphics.setDefaultFilter('nearest','nearest')
-    love.window.setTitle('Flappy by Paulo')
+    love.window.setTitle('Filphy by Paulo')
     math.randomseed(os.time())
 
     push:setupScreen(VIRTUAL_WIDTH,VIRTUAL_HEIGHT,WINDOW_WIDTH,WINDOW_HEIGHT,{
@@ -43,6 +45,8 @@ function love.load()
     })
 
     love.keyboard.keysPressed = {}
+
+    spawnTimer = math.random(2,4)
 
 end
 
@@ -63,36 +67,40 @@ function love.keyboard.wasPressed(key)
 end
 
 function love.update(dt)
-    backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt)
+
+    if scrolling then
+
+        backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt)
         % BACKGROUND_LOOP_POINT
     groundScroll = (groundScroll + GROUND_SCROLL_SPEED * dt)
         % VIRTUAL_WIDTH
 
-    spawnTimer = spawnTimer + dt
+        spawnTimer = spawnTimer - dt
 
-    if spawnTimer > 2 then
-
-        lastPipeY = math.max(-288 + 10, math.min(lastPipeY + math.random(-20,20), VIRTUAL_HEIGHT-90-288))
-
-        table.insert(pipePairs,PipePair(lastPipeY,VIRTUAL_WIDTH,math.random(90,150)))
-        spawnTimer = 0
-        --log.singleInfo("Pipes: " ..sizeOf(pipePairs))
-    end
-
-    for index, pipe in pairs(pipePairs) do
-        pipe:update(dt)
-    end
-
-    for index, pipe in pairs(pipePairs) do
-        if pipe:canDespawn() then
-            table.remove(pipePairs,index)
+        if spawnTimer <= 0 then
+            local gap = math.random(70,110)
+            table.insert(pipePairs,PipePair(math.random(35,VIRTUAL_HEIGHT - 50 - gap),VIRTUAL_WIDTH,gap))
+            spawnTimer = math.random(2,4)
         end
 
+        for _, pipePair in pairs(pipePairs) do
+            pipePair:update(dt)
+
+            if pipePair:collides(bird) then
+                scrolling = false
+            end
+
+        end
+
+        for index, pipe in pairs(pipePairs) do
+            if pipe:canDespawn() then
+                table.remove(pipePairs,index)
+            end
+
+        end
+
+        bird:update(dt)
     end
-
-    bird:update(dt)
-
-    log.info(bird:toString())
 
     love.keyboard.keysPressed = {}
     
@@ -102,18 +110,19 @@ function love.draw()
     push:start()
 
     love.graphics.draw(background,-backgroundScroll,0)
-    for index, pipe in pairs(pipePairs) do
+    for _, pipe in pairs(pipePairs) do
         pipe:render()
+        if DEBUG_COLLIDERS then
+            pipe:drawCollider()
+        end
     end
+
     love.graphics.draw(ground,-groundScroll,VIRTUAL_HEIGHT-16)
 
     bird:render()
+    if DEBUG_COLLIDERS then
+        bird:drawCollider()
+    end
 
     push:finish()
-end
-
-function sizeOf(T)
-    local count = 0
-    for _ in pairs(T) do count = count + 1 end
-    return count
 end
