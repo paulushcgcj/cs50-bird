@@ -13,6 +13,6 @@ jobs:
         with:
           url: "https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip"          
       - name: Generating Binaries for windows
-        run: echo tst
+        run: ls
       - name: Zipping Build for windows
         run: echo tst      
