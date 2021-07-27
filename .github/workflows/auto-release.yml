@@ -16,5 +16,19 @@ jobs:
         run: |
           unzip love-11.3-win64
           mv thefbird.love love-11.3-win64
+          cat love-11.3-win64/love.exe love-11.3-win64/thefbird.love > love-11.3-win64/thefbird.exe
+          mv love-11.3-win64/ win64/
+          rm -rf win64/*.ico
+          rm -rf win64/lov*.exe
+          rm -rf win64/*.txt
+          rm -rf win64/*.ico
       - name: Zipping Build for windows
-        run: ls
+        run: |
+          ls
+          zip version-win64.zip win64/
+      - name: Archive binaries for windows
+        uses: actions/upload-artifact@v2
+        with:
+          name: version-win64
+          path: version-win64.zip
+          retention-days: 5
