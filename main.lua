@@ -8,6 +8,7 @@ require 'StateMachine'
 require 'states/PlayState'
 require 'states/TitleState'
 require 'states/ScoreState'
+require 'states/CountDownState'
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -28,7 +29,6 @@ function love.load()
 
     smallFont = love.graphics.newFont('assets/PressStart2P-Regular.ttf',8)
     mediumFont = love.graphics.newFont('assets/Gugi-Regular.ttf',14)
-    --unused
     largeFont = love.graphics.newFont('assets/Gugi-Regular.ttf',56)
     flappyFont = love.graphics.newFont('assets/Gugi-Regular.ttf',28)
     love.graphics.setFont(flappyFont)
@@ -43,7 +43,8 @@ function love.load()
     gStateMachine = StateMachine {
         ['title'] = function() return TitleState(VIRTUAL_WIDTH) end,
         ['play'] = function() return PlayState(VIRTUAL_WIDTH,VIRTUAL_HEIGHT,GRAVITY) end,
-        ['score'] = function () return ScoreState(VIRTUAL_WIDTH) end
+        ['score'] = function () return ScoreState(VIRTUAL_WIDTH) end,
+        ['countdown'] = function () return CountDownState(VIRTUAL_WIDTH) end
     }
     gStateMachine:change('title')
 

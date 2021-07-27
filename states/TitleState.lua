@@ -9,7 +9,7 @@ end
 
 function TitleState:update(dt)
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-        gStateMachine:change('play')
+        gStateMachine:change('countdown')
     end
 end
 
