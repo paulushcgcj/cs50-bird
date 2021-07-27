@@ -11,6 +11,7 @@ function PipePair:init(yPosition,screenWidth,gap)
         ['upper'] = Pipe('top',screenWidth,yPosition,PIPE_IMAGE),
         ['lower'] = Pipe('bottom',screenWidth,yPosition + gap,PIPE_IMAGE)
     }
+    self.scored = false
 end
 
 function PipePair:update(dt)
@@ -35,6 +36,9 @@ function PipePair:collides(target)
 
 end
 
+function PipePair:getXEdge()
+    return self.pipes['lower'].box.x + self.pipes['lower'].box.width
+end
 
 function PipePair:render()
     for _, pipe in pairs(self.pipes) do

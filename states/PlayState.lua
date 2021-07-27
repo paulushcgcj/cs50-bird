@@ -11,6 +11,8 @@ function PlayState:init(screenWidth,screenHeight,gravity)
     self.collided = false
 
     self.bird = Bird(screenWidth,screenHeight,gravity)
+
+    self.score = 0
 end
 
 function PlayState:update(dt)
@@ -27,6 +29,12 @@ function PlayState:update(dt)
     end
 
     for _, pipePair in pairs(self.pipePairs) do
+
+        if not pipePair.scored and pipePair:getXEdge() < self.bird.box.x then
+                pipePair.scored = true
+                self.score = self.score + 1
+        end
+
         pipePair:update(dt)
 
         if pipePair:collides(self.bird) then
@@ -44,8 +52,12 @@ function PlayState:update(dt)
 
     self.bird:update(dt)
 
+    if self.bird.box.y > self.screenHeight - 16 then
+        gStateMachine:change('score',{ score = self.score})
+    end
+
     if self.collided then
-        gStateMachine:change('title')
+        gStateMachine:change('score',{ score = self.score})
     end
 end
 

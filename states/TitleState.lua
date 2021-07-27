@@ -5,8 +5,8 @@ TitleState = Class{__includes = BaseState}
 
 function TitleState:init(screenWidth)
     self.screenWidth = screenWidth
-    self.mediumFont = love.graphics.newFont('assets/PressStart2P-Regular.ttf',14)
-    self.flappyFont = love.graphics.newFont('assets/PressStart2P-Regular.ttf',28)
+    self.mediumFont = love.graphics.newFont('assets/Gugi-Regular.ttf',14)
+    self.flappyFont = love.graphics.newFont('assets/Gugi-Regular.ttf',28)
     love.graphics.setFont(self.flappyFont)
 end
 

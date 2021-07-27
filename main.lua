@@ -7,6 +7,7 @@ require 'Scenario'
 require 'StateMachine'
 require 'states/PlayState'
 require 'states/TitleState'
+require 'states/ScoreState'
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -41,6 +42,7 @@ function love.load()
     gStateMachine = StateMachine {
         ['title'] = function() return TitleState(VIRTUAL_WIDTH) end,
         ['play'] = function() return PlayState(VIRTUAL_WIDTH,VIRTUAL_HEIGHT,GRAVITY) end,
+        ['score'] = function () return ScoreState(VIRTUAL_WIDTH) end
     }
     gStateMachine:change('title')
 
