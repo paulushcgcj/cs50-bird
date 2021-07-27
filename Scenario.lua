@@ -1,6 +1,5 @@
 Class = require 'class'
 
-require 'Pipe'
 require 'PipePair'
 
 Scenario = Class{}
