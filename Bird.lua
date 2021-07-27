@@ -32,6 +32,7 @@ function Bird:update(dt)
     self.deltaY = self.deltaY + self.gravity * dt
     if love.keyboard.wasPressed('space') then
         self.deltaY = -(self.jumpForce + dt)
+        sounds['jump']:play()
     end
 
     self.box:update(0,self.deltaY)

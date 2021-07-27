@@ -33,6 +33,7 @@ function PlayState:update(dt)
         if not pipePair.scored and pipePair:getXEdge() < self.bird.box.x then
                 pipePair.scored = true
                 self.score = self.score + 1
+                sounds['score']:play()
         end
 
         pipePair:update(dt)
@@ -53,10 +54,14 @@ function PlayState:update(dt)
     self.bird:update(dt)
 
     if self.bird.box.y > self.screenHeight - 16 then
+        sounds['explosion']:play()
+        sounds['hurt']:play()
         gStateMachine:change('score',{ score = self.score})
     end
 
     if self.collided then
+        sounds['explosion']:play()
+        sounds['hurt']:play()
         gStateMachine:change('score',{ score = self.score})
     end
 end

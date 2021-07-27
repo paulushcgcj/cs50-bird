@@ -9,6 +9,7 @@ function CountDownState:init(screenWidth)
     self.screenWidth = screenWidth
     self.count = 3
     self.timer = 0
+    sounds['jump']:play()
 end
 
 function CountDownState:update(dt)
@@ -17,6 +18,7 @@ function CountDownState:update(dt)
     if self.timer > COUNTDOWN_TIME then
         self.timer = self.timer % COUNTDOWN_TIME
         self.count = self.count - 1
+        sounds['jump']:play()
 
         if self.count == 0 then
             gStateMachine:change('play')

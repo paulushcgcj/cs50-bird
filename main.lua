@@ -33,6 +33,17 @@ function love.load()
     flappyFont = love.graphics.newFont('assets/Gugi-Regular.ttf',28)
     love.graphics.setFont(flappyFont)
 
+    sounds = {
+        ['jump'] = love.audio.newSource('assets/audio/jump.wav', 'static'),
+        ['explosion'] = love.audio.newSource('assets/audio/explosion.wav', 'static'),
+        ['hurt'] = love.audio.newSource('assets/audio/hurt.wav', 'static'),
+        ['score'] = love.audio.newSource('assets/audio/score.wav', 'static'),
+        ['music'] = love.audio.newSource('assets/audio/marios_way.mp3', 'static')
+    }
+
+    sounds['music']:setLooping(true)
+    sounds['music']:play()
+
     push:setupScreen(VIRTUAL_WIDTH,VIRTUAL_HEIGHT,WINDOW_WIDTH,WINDOW_HEIGHT,{
         fullscreen = false,
         resizable = true,
