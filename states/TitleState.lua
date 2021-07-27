@@ -5,9 +5,6 @@ TitleState = Class{__includes = BaseState}
 
 function TitleState:init(screenWidth)
     self.screenWidth = screenWidth
-    self.mediumFont = love.graphics.newFont('assets/Gugi-Regular.ttf',14)
-    self.flappyFont = love.graphics.newFont('assets/Gugi-Regular.ttf',28)
-    love.graphics.setFont(self.flappyFont)
 end
 
 function TitleState:update(dt)
@@ -17,9 +14,9 @@ function TitleState:update(dt)
 end
 
 function TitleState:render()
-    love.graphics.setFont(self.flappyFont)
+    love.graphics.setFont(flappyFont)
     love.graphics.printf('Filphy Bird', 0, 64, self.screenWidth, 'center')
 
-    love.graphics.setFont(self.mediumFont)
+    love.graphics.setFont(mediumFont)
     love.graphics.printf('Press Enter', 0, 100, self.screenWidth, 'center')
 end

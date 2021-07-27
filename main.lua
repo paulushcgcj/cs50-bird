@@ -26,10 +26,11 @@ function love.load()
     love.window.setTitle('Filphy by Paulo')
     math.randomseed(os.time())
 
-    --smallFont = love.graphics.newFont('assets/PressStart2P-Regular.ttf',8)
-    --mediumFont = love.graphics.newFont('assets/PressStart2P-Regular.ttf',14)
-    --largeFont = love.graphics.newFont('assets/PressStart2P-Regular.ttf',56)
-    flappyFont = love.graphics.newFont('assets/PressStart2P-Regular.ttf',28)
+    smallFont = love.graphics.newFont('assets/PressStart2P-Regular.ttf',8)
+    mediumFont = love.graphics.newFont('assets/Gugi-Regular.ttf',14)
+    --unused
+    largeFont = love.graphics.newFont('assets/Gugi-Regular.ttf',56)
+    flappyFont = love.graphics.newFont('assets/Gugi-Regular.ttf',28)
     love.graphics.setFont(flappyFont)
 
     push:setupScreen(VIRTUAL_WIDTH,VIRTUAL_HEIGHT,WINDOW_WIDTH,WINDOW_HEIGHT,{
