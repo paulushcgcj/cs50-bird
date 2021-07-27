@@ -37,7 +37,7 @@ function Pipe:render(pipeImage)
 end
 
 function Pipe:collides(target)    
-    return self.box:collidesComplex(target.box,0,self.orientation == 'top' and self.box.height or 0,3)
+    return self.box:collidesComplex(target.box,self.orientation == 'top' and self.box.height or 0)
 end
 
 function Pipe:toString()
@@ -51,9 +51,9 @@ end
 
 function Pipe:drawCollider()
     self.box:drawCollider(
-        3,
+        0,
         self.orientation == 'top' and -self.box.height + 3 or 3,
-        6,
-        6
+        0,
+        0
     )
 end

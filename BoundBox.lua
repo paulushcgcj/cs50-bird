@@ -28,17 +28,17 @@ function BoundBox:canDespawn()
 end
 
 function BoundBox:collides(target)
-    return self:collides(target,0,0,0)
+    return self:collides(target,0)
 end
 
-function BoundBox:collidesComplex(target,shiftX,shiftY,shiftAll)
-    if ((self.x - shiftX) + shiftAll) + (self.width - shiftAll * 2) >= target.x and (self.x - shiftX) + shiftAll <= target.x + target.width then
-        if ((self.y - shiftY) + shiftAll) + (self.height - shiftAll * 2) >= target.y and (self.y - shiftAll) + shiftY <= target.y + target.height then
-            return true
-        end
+function BoundBox:collidesComplex(target,shiftY)
+    if self.x > (target.x - 6) + target.width or (target.x - 6) > self.x + self.width then
+        return false
     end
-
-    return false
+    if (self.y - shiftY) > target.y + target.height or target.y > (self.y - shiftY) + self.height then
+        return false
+    end
+    return true
 end
 
 function BoundBox:drawCollider(shiftX,shiftY,shiftWidth,shiftHeight)
