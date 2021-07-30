@@ -1,6 +1,6 @@
-Class = require 'class'
+Class = require 'libs/class'
 
-require 'PipePair'
+require 'src/PipePair'
 
 Scenario = Class{}
 

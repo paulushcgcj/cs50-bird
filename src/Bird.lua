@@ -1,5 +1,5 @@
-Class = require 'class'
-require 'BoundBox'
+Class = require 'libs/class'
+require 'src/BoundBox'
 
 Bird = Class{}
 

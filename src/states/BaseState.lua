@@ -1,4 +1,4 @@
-Class = require 'class'
+Class = require 'libs/class'
 
 BaseState = Class{}
 

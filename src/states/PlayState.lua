@@ -1,5 +1,5 @@
-Class = require 'class'
-require 'states/BaseState'
+Class = require 'libs/class'
+require 'src/states/BaseState'
 
 PlayState = Class{__includes = BaseState}
 

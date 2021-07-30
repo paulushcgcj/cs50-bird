@@ -1,14 +1,14 @@
-push = require 'push'
-log = require 'log'
+push = require 'libs/push'
+log = require 'libs/log'
 
-require 'Bird'
-require 'Scenario'
+require 'src/Bird'
+require 'src/Scenario'
 
-require 'StateMachine'
-require 'states/PlayState'
-require 'states/TitleState'
-require 'states/ScoreState'
-require 'states/CountDownState'
+require 'src/StateMachine'
+require 'src/states/PlayState'
+require 'src/states/TitleState'
+require 'src/states/ScoreState'
+require 'src/states/CountDownState'
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
