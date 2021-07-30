@@ -1,5 +1,5 @@
-Class = require 'class'
-require 'states/BaseState'
+Class = require 'libs/class'
+require 'src/states/BaseState'
 
 CountDownState = Class{__includes = BaseState}
 

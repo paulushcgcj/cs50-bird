@@ -1,5 +1,5 @@
-Class = require 'class'
-require 'Pipe'
+Class = require 'libs/class'
+require 'src/Pipe'
 
 PipePair = Class{}
 
